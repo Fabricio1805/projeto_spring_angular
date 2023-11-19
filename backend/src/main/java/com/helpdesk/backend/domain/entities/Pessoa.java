@@ -1,12 +1,23 @@
 package com.helpdesk.backend.domain.entities;
 
+import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+import org.springframework.data.annotation.CreatedDate;
+
 import com.helpdesk.backend.domain.enums.Perfil;
 
+import jakarta.persistence.CollectionTable;
+import jakarta.persistence.Column;
+import jakarta.persistence.ElementCollection;
+import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
@@ -14,19 +25,34 @@ import lombok.Setter;
 @Getter
 @Setter
 @EqualsAndHashCode
-public abstract class Pessoa {
+@Entity(name = "pessoa")
+public abstract class Pessoa implements Serializable {
+
+  private static final long serialVersionUID = 1L;
+
+  @Id
+  @GeneratedValue(strategy = GenerationType.UUID)
   protected String id;
 
   protected String nome;
+
+  @Column(unique = true)
   protected String cpf;
+
+  @Column(unique = true)
   protected String email;
+
   protected String senha;
+
+  @ElementCollection(fetch = FetchType.EAGER)
+  @CollectionTable(name = "perfis")
   protected Set<Integer> perfis = new HashSet<>();
+
   protected LocalDateTime dataCriacao = LocalDateTime.now();
 
   public Pessoa() {
     super();
-    addPerfis(Perfil.CLIENTE);
+    addPerfil(Perfil.CLIENTE);
   }
 
   public Pessoa(String id, String nome, String cpf, String email, String senha) {
@@ -36,14 +62,14 @@ public abstract class Pessoa {
     this.cpf = cpf;
     this.email = email;
     this.senha = senha;
-    addPerfis(Perfil.CLIENTE);
+    addPerfil(Perfil.CLIENTE);
   }
 
   public Set<Perfil> getPerfis() {
     return perfis.stream().map(x -> Perfil.toEnum(x)).collect(Collectors.toSet());
   }
 
-  public void addPerfis(Perfil perfil) {
+  public void addPerfil(Perfil perfil) {
     this.perfis.add(perfil.getCodigo());
   }
 }
