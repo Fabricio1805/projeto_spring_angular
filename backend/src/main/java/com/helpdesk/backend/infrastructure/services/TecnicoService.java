@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import java.util.List;
 import com.helpdesk.backend.application.exception.NotFoundException;
+import com.helpdesk.backend.domain.dtos.TecnicoDTO;
 import com.helpdesk.backend.domain.model.Tecnico;
 import com.helpdesk.backend.infrastructure.repository.TecnicoRepository;
 
@@ -21,5 +22,10 @@ public class TecnicoService {
   
   public List<Tecnico> findAll() {
     return tecnicoRepository.findAll();
+  }
+
+  public Tecnico create(TecnicoDTO tecnicoDto) {
+    Tecnico tecnico = new Tecnico(tecnicoDto);
+    return tecnicoRepository.save(tecnico);
   }
 }

@@ -1,6 +1,7 @@
 package com.helpdesk.backend.application.controllers;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -12,6 +13,9 @@ import com.helpdesk.backend.domain.model.Tecnico;
 import com.helpdesk.backend.infrastructure.services.TecnicoService;
 import java.util.List;
 import java.util.stream.Collectors;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+
 
 @RestController
 @RequestMapping("/tecnicos")
@@ -33,4 +37,12 @@ public class TecnicoController {
 
     return ResponseEntity.ok().body(tecnicoDTOs);
   }
+
+  @PostMapping
+  public ResponseEntity<TecnicoDTO> create(@RequestBody TecnicoDTO tecnicoDto) {
+    Tecnico tecnico = tecnicoService.create(tecnicoDto);
+      
+    return ResponseEntity.status(HttpStatus.CREATED).body(new TecnicoDTO(tecnico));
+  }
+  
 }

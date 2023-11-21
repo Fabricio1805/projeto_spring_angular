@@ -2,8 +2,10 @@ package com.helpdesk.backend.domain.model;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.helpdesk.backend.domain.dtos.TecnicoDTO;
 import com.helpdesk.backend.domain.enums.Perfil;
 
 import jakarta.persistence.Entity;
@@ -30,4 +32,15 @@ public class Tecnico extends Pessoa {
     super(id, nome, cpf, email, senha);
     addPerfil(Perfil.CLIENTE);
   }
+
+  public Tecnico(TecnicoDTO tecnico) {
+    super();
+    this.id = tecnico.getId();
+    this.nome = tecnico.getNome();
+    this.cpf = tecnico.getCpf();
+    this.email = tecnico.getEmail();
+    this.senha = tecnico.getSenha();
+    this.perfis = tecnico.getPerfis().stream().map(x -> x.getCodigo()).collect(Collectors.toSet());
+    this.dataCriacao = tecnico.getDataCriacao();
+  } 
 }
