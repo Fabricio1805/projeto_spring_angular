@@ -10,6 +10,8 @@ import org.springframework.web.bind.annotation.RestController;
 import com.helpdesk.backend.domain.dtos.TecnicoDTO;
 import com.helpdesk.backend.domain.model.Tecnico;
 import com.helpdesk.backend.infrastructure.services.TecnicoService;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/tecnicos")
@@ -22,5 +24,13 @@ public class TecnicoController {
   public ResponseEntity<TecnicoDTO> findById(@PathVariable("id") String id) {
     Tecnico tecnico = tecnicoService.findById(id);
     return ResponseEntity.ok().body(new TecnicoDTO(tecnico));
+  }
+
+  @GetMapping
+  public ResponseEntity<List<TecnicoDTO>> findAll() {
+    List<Tecnico> tecnicos = tecnicoService.findAll();
+    List<TecnicoDTO> tecnicoDTOs = tecnicos.stream().map(tec -> new TecnicoDTO(tec)).collect(Collectors.toList());
+
+    return ResponseEntity.ok().body(tecnicoDTOs);
   }
 }
