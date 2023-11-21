@@ -14,7 +14,8 @@ public class TecnicoService {
   private TecnicoRepository tecnicoRepository;
 
 
-  public Optional<Tecnico> findById(String id) {
-    return this.tecnicoRepository.findById(id);
+  public Tecnico findById(String id) {
+    Optional<Tecnico> tecnico = tecnicoRepository.findById(id);
+    return tecnico.orElse(null);
   }
 }
