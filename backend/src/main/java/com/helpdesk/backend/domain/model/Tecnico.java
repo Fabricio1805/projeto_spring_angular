@@ -1,4 +1,4 @@
-package com.helpdesk.backend.domain.entities;
+package com.helpdesk.backend.domain.model;
 
 import java.util.ArrayList;
 import java.util.List;

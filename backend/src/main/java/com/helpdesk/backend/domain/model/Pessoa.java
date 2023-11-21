@@ -1,12 +1,10 @@
-package com.helpdesk.backend.domain.entities;
+package com.helpdesk.backend.domain.model;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.stream.Collectors;
-
-import org.springframework.data.annotation.CreatedDate;
 
 import com.helpdesk.backend.domain.enums.Perfil;
 

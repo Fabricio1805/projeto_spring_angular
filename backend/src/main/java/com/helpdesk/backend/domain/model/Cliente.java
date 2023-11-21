@@ -1,4 +1,4 @@
-package com.helpdesk.backend.domain.entities;
+package com.helpdesk.backend.domain.model;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -23,7 +23,7 @@ public class Cliente extends Pessoa {
   public Cliente() {
     super();
     addPerfil(Perfil.CLIENTE);
-    
+
   }
 
   public Cliente(String id, String nome, String cpf, String email, String senha) {
