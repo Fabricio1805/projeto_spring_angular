@@ -1,4 +1,4 @@
-package com.helpdesk.backend.application.exception;
+package com.helpdesk.backend.application.exceptions;
 
 import java.io.Serializable;
 

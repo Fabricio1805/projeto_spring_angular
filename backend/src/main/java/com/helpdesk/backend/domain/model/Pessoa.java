@@ -32,14 +32,16 @@ public abstract class Pessoa implements Serializable {
   @GeneratedValue(strategy = GenerationType.UUID)
   protected String id;
 
+  @Column(nullable = false)
   protected String nome;
 
-  @Column(unique = true)
+  @Column(unique = true,nullable = false)
   protected String cpf;
 
-  @Column(unique = true)
+  @Column(unique = true, nullable = false)
   protected String email;
 
+  @Column(nullable = false)
   protected String senha;
 
   @ElementCollection(fetch = FetchType.EAGER)
