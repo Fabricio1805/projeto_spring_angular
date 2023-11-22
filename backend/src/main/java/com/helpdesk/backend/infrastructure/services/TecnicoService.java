@@ -32,12 +32,23 @@ public class TecnicoService {
   }
 
   public Tecnico create(TecnicoDTO tecnicoDto) {
-     
+
     validateCpfExisting(tecnicoDto.getCpf());
     validateEmailExisting(tecnicoDto.getEmail());
     Tecnico tecnico = new Tecnico(tecnicoDto);
     return tecnicoRepository.save(tecnico);
   }
+  
+  public Tecnico update(String id, TecnicoDTO tecnicoDTO) {
+    tecnicoDTO.setId(id);
+    Tecnico tecnico = findById(id);
+    validateCpfExisting(tecnicoDTO.getCpf());
+    validateEmailExisting(tecnicoDTO.getEmail());
+    tecnico = new Tecnico(tecnicoDTO);
+
+    return tecnicoRepository.save(tecnico);
+  }
+  
 
   private void validateCpfExisting(String cpf) {
     Optional<Pessoa> pessoa = pessoaRepository.findByCpf(cpf);
@@ -48,7 +59,7 @@ public class TecnicoService {
 
   private void validateEmailExisting(String email) {
     Optional<Pessoa> pessoa = pessoaRepository.findByEmail(email);
-    if(pessoa.isPresent()) {
+    if (pessoa.isPresent()) {
       throw new DataIntegrityViolationException("EMAIL já cadastrado no sistema!");
     }
   }
