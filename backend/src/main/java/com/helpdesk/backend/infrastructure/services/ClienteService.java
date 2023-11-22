@@ -33,7 +33,7 @@ public class ClienteService {
 
   public Cliente findById(String id) {
     Optional<Cliente> cliente = clienteRepository.findById(id);
-    return cliente.orElseThrow(() -> new NotFoundException("Tecnico não encontrado com o id: " + id));
+    return cliente.orElseThrow(() -> new NotFoundException("Cliente não encontrado com o id: " + id));
   }
 
   public List<Cliente> findAll() {
