@@ -11,6 +11,9 @@ import org.springframework.web.bind.annotation.RestController;
 import com.helpdesk.backend.domain.dtos.TecnicoDTO;
 import com.helpdesk.backend.domain.model.Tecnico;
 import com.helpdesk.backend.infrastructure.services.TecnicoService;
+
+import jakarta.validation.Valid;
+
 import java.util.List;
 import java.util.stream.Collectors;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -34,14 +37,12 @@ public class TecnicoController {
   public ResponseEntity<List<TecnicoDTO>> findAll() {
     List<Tecnico> tecnicos = tecnicoService.findAll();
     List<TecnicoDTO> tecnicoDTOs = tecnicos.stream().map(tec -> new TecnicoDTO(tec)).collect(Collectors.toList());
-
     return ResponseEntity.ok().body(tecnicoDTOs);
   }
 
   @PostMapping
-  public ResponseEntity<TecnicoDTO> create(@RequestBody TecnicoDTO tecnicoDto) {
+  public ResponseEntity<TecnicoDTO> create(@Valid @RequestBody TecnicoDTO tecnicoDto) {
     Tecnico tecnico = tecnicoService.create(tecnicoDto);
-      
     return ResponseEntity.status(HttpStatus.CREATED).body(new TecnicoDTO(tecnico));
   }
   
