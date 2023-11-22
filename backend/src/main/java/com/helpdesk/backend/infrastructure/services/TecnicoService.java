@@ -39,16 +39,23 @@ public class TecnicoService {
     return tecnicoRepository.save(tecnico);
   }
   
-  public Tecnico update(String id, TecnicoDTO tecnicoDTO) {
+  public void update(String id, TecnicoDTO tecnicoDTO) {
     tecnicoDTO.setId(id);
     Tecnico tecnico = findById(id);
     validateCpfExisting(tecnicoDTO.getCpf());
     validateEmailExisting(tecnicoDTO.getEmail());
     tecnico = new Tecnico(tecnicoDTO);
 
-    return tecnicoRepository.save(tecnico);
+    tecnicoRepository.save(tecnico);
   }
-  
+
+  public void delete(String id) {
+    Tecnico tecnico = findById(id);
+    if(tecnico.getChamados().size() > 0){
+      throw new DataIntegrityViolationException("Tecnico possui ordens de serviço e não pode ser deletado!");
+    }
+    tecnicoRepository.deleteById(id);
+  }
 
   private void validateCpfExisting(String cpf) {
     Optional<Pessoa> pessoa = pessoaRepository.findByCpf(cpf);

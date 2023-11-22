@@ -6,6 +6,7 @@ import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -47,8 +48,14 @@ public class TecnicoController {
   }
 
   @PutMapping("/{id}")
-  public ResponseEntity<TecnicoDTO> update(@PathVariable("id") String id, @Valid @RequestBody TecnicoDTO tecnicoDto) {
-    Tecnico tecnico = tecnicoService.update(id, tecnicoDto);
-    return ResponseEntity.status(HttpStatus.NO_CONTENT).body(new TecnicoDTO(tecnico));
+  public ResponseEntity<Void> update(@PathVariable("id") String id, @Valid @RequestBody TecnicoDTO tecnicoDto) {
+    tecnicoService.update(id, tecnicoDto);
+    return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+  }
+
+  @DeleteMapping("/{id}")
+  public ResponseEntity<Void> delete(@PathVariable("id") String id) {
+    tecnicoService.delete(id);
+    return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
   }
 }
